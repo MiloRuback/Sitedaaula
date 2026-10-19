@@ -1,12 +1,11 @@
 // ============================================================
 // CONFIGURAÇÃO DO SUPABASE
-// Substitua pelos valores do SEU projeto
 // ============================================================
 const SUPABASE_URL = 'https://vxffjevtlknptkhhrbbp.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_-QbrQHUYP1Geahd2qoGGHA_fidSPhLS';
 
-// Inicializa o cliente Supabase
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Inicializa o cliente Supabase (nome diferente para não conflitar)
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ============================================================
 // Elementos do DOM
@@ -57,6 +56,12 @@ function preencherFormulario(cadastro) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+function escapeHtml(texto) {
+    const div = document.createElement('div');
+    div.textContent = texto;
+    return div.innerHTML;
+}
+
 // ============================================================
 // CRUD - READ (Listar)
 // ============================================================
@@ -65,7 +70,7 @@ async function listarCadastros() {
     tabela.style.display = 'none';
     listaVazia.style.display = 'none';
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('cadastros')
         .select('*')
         .order('id', { ascending: true });
@@ -104,12 +109,6 @@ async function listarCadastros() {
     });
 }
 
-function escapeHtml(texto) {
-    const div = document.createElement('div');
-    div.textContent = texto;
-    return div.innerHTML;
-}
-
 // ============================================================
 // CRUD - CREATE / UPDATE
 // ============================================================
@@ -130,14 +129,14 @@ form.addEventListener('submit', async (e) => {
 
     if (editandoId) {
         // UPDATE
-        const resultado = await supabase
+        const resultado = await supabaseClient
             .from('cadastros')
             .update(dados)
             .eq('id', editandoId);
         error = resultado.error;
     } else {
         // CREATE
-        const resultado = await supabase
+        const resultado = await supabaseClient
             .from('cadastros')
             .insert([dados]);
         error = resultado.error;
@@ -161,7 +160,7 @@ form.addEventListener('submit', async (e) => {
 // CRUD - UPDATE (preparar formulário)
 // ============================================================
 async function editarCadastro(id) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('cadastros')
         .select('*')
         .eq('id', id)
@@ -181,7 +180,7 @@ async function editarCadastro(id) {
 async function excluirCadastro(id) {
     if (!confirm('Tem certeza que deseja excluir este cadastro?')) return;
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from('cadastros')
         .delete()
         .eq('id', id);
