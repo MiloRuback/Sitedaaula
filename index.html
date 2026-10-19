@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastros | Milo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📋 Sistema de Cadastros</h1>
+            <p class="subtitle">CRUD completo com Supabase — Projeto de Milo</p>
+        </header>
+
+        <!-- Formulário de Cadastro / Edição -->
+        <section class="card form-card">
+            <h2 id="form-title">Novo Cadastro</h2>
+            <form id="form-cadastro">
+                <input type="hidden" id="id">
+                
+                <div class="form-group">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" placeholder="Digite o nome completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail *</label>
+                    <input type="email" id="email" placeholder="exemplo@email.com" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefone">Telefone</label>
+                        <input type="text" id="telefone" placeholder="(11) 99999-9999">
+                    </div>
+                    <div class="form-group">
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" placeholder="São Paulo">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="btn-salvar">
+                        Salvar
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-cancelar" style="display: none;">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Lista de Cadastros -->
+        <section class="card">
+            <div class="list-header">
+                <h2>Cadastros</h2>
+                <span id="total-registros" class="badge">0 registros</span>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Carregando...</p>
+            </div>
+
+            <div id="lista-vazia" class="empty-state" style="display: none;">
+                <p>Nenhum cadastro encontrado.</p>
+                <p class="hint">Preencha o formulário acima para adicionar o primeiro!</p>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="tabela-cadastros" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Cidade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-cadastros">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>Projeto CRUD + Supabase — Nome escolar: <strong>Milo</strong></p>
+        </footer>
+    </div>
+
+    <!-- Toast de notificações -->
+    <div id="toast" class="toast"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>
